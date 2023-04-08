@@ -124,9 +124,9 @@ while not game_over:
     pelota=pygame.draw.circle(screen,RED,(pelota_x,pelota_y),10)
     
     ###Lógica para no escapar (arreglar)
-    if player1_y_coor==0 or player1_y_coor==600-p1_altura:
+    if player1_y_coor<0 or player1_y_coor>600-p1_altura:
         player1_y_speed=0
-    if player2_y_coor==0 or player2_y_coor==600-p1_altura:
+    if player2_y_coor<0 or player2_y_coor>600-p1_altura:
         player2_y_speed=0
     #Colisiones
     if pelota.colliderect(jugador1) or pelota.colliderect(jugador2):
