@@ -1,5 +1,4 @@
 import pygame, sys, random
-
 pygame.init()
 # Definir colores
 BLACK=(0,0,0)
@@ -8,10 +7,14 @@ GREEN=(0,255,0)
 RED=(255,0,0)
 BLUE=(0,0,255)
 
-#crear ventana
+#Crear atributos básicos
 size=(800,500)
 screen = pygame.display.set_mode(size)
 clock=pygame.time.Clock()
+game_over=False
+
+
+
 cord_x=400
 cord_y=200
 nuevo_x=10
@@ -31,9 +34,10 @@ for i in range(60):
 speed_x=3
 speed_y=2
 pygame.mouse.set_visible(0)
-while True:
+while not game_over:
     for event in pygame.event.get():
         if event.type== pygame.QUIT:
+            game_over=True
             sys.exit()
         if event.type ==pygame.KEYDOWN:
              if event.key==pygame.K_LEFT:
@@ -69,14 +73,14 @@ while True:
     
  #DIBUJA ESTRELLAS
     for coord in coor_list:
-        
         x=coord[0]
         y=coord[1]
         pygame.draw.circle(screen,WHITE,(x,y),2)
         coord[1] +=coord[2]/2
         if (coord[1] > 500):
             coord[1] = 0
-    ### --ZONA DE DIBUJO
+            coord[0] = random.randint(0,800) 
+   #Dibuja objetos
     pygame.draw.rect(screen,GREEN, (nuevo_x,nuevo_y,40,40))
     pygame.draw.rect(screen,RED, (cord_x,cord_y,80,80))
 
@@ -85,4 +89,4 @@ while True:
     ###
     #Actualiza Pantalla
     pygame.display.flip()
-    clock.tick(30)
+    clock.tick(120)
