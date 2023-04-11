@@ -1,4 +1,4 @@
-import pygame, sys, random
+import pygame, sys, random, math
 pygame.init()
 
 #Crear atributos básicos
@@ -66,6 +66,23 @@ for i in range(60):
 #Ocultamos el cursor del mouse
 pygame.mouse.set_visible(0)
 
+def create_powerup():
+    posx = random.randint(0, 800)
+    posy = size[1] - 30
+    text = font.render('D', True, WHITE)
+    Textrect = text.get_rect()
+    Textrect.center = posx + 20, posy + 15
+    return {
+        'posx': posx,
+        'posy': posy,
+        'text': text,
+        'Textrect': Textrect,
+        'angulo': 0.001,
+        'velocidad_x': 2,
+    }
+
+powerups = []
+
 
 while not game_over:
     for event in pygame.event.get():
@@ -95,6 +112,8 @@ while not game_over:
                        player2_y_speed=3
                   else:
                        player2_y_speed=0
+             if event.key == pygame.K_SPACE:
+                powerups.append(create_powerup())
         if event.type==pygame.KEYUP:
              #Jugador 1
              if event.key==pygame.K_w:
@@ -192,6 +211,19 @@ while not game_over:
           velocidad=player2_y_speed
          offset = (paddle.centery - pelota.centery) / (p1_altura / 2) + velocidad*-1/5
          pelota_speed_y = -offset * 5
+    for powerup in powerups:
+        if powerup['posx'] > size[0] - 30:
+            powerup['velocidad_x'] *= -1
+        if powerup['posx'] < 0:
+            powerup['velocidad_x'] *= -1
+
+        powerup['posx'] += powerup['velocidad_x']
+        powerup['posy'] -= math.sin(powerup['angulo']) * 1.430
+        powerup['angulo'] += 0.005
+
+        pygame.draw.rect(screen, WHITE, (powerup['posx'], powerup['posy'], 40, 30), 3, 2, 10, 10, 10, 10)
+        powerup['Textrect'].center = powerup['posx'] + 20, powerup['posy'] + 15
+        screen.blit(powerup['text'], powerup['Textrect'])
          
    # print(pygame.time.get_ticks());
     #Actualiza Pantalla

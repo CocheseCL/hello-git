@@ -34,6 +34,25 @@ for i in range(60):
 speed_x=3
 speed_y=2
 pygame.mouse.set_visible(0)
+
+def create_powerup():
+    posx = random.randint(0, 800)
+    posy = size[1] - 30
+    text = font.render('D', True, WHITE)
+    Textrect = text.get_rect()
+    Textrect.center = posx + 20, posy + 15
+    return {
+        'posx': posx,
+        'posy': posy,
+        'text': text,
+        'Textrect': Textrect,
+        'angulo': 0.001,
+        'velocidad_x': 2,
+    }
+
+powerups = []
+
+
 while not game_over:
     for event in pygame.event.get():
         if event.type== pygame.QUIT:
